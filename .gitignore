@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 .idea
-*secrets.toml
+**/*secrets*.toml
 .ruff_cache

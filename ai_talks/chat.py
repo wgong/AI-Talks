@@ -79,12 +79,19 @@ def main() -> None:
             options=(st.session_state.locale.radio_text1, st.session_state.locale.radio_text2),
             horizontal=True,
         )
-        match role_kind:
-            case st.session_state.locale.radio_text1:
-                c2.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
-                             options=st.session_state.locale.ai_role_options)
-            case st.session_state.locale.radio_text2:
-                c2.text_input(label=st.session_state.locale.select_placeholder3, key="role")
+        #### py3.10
+        # match role_kind:
+        #     case st.session_state.locale.radio_text1:
+        #         c2.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
+        #                      options=st.session_state.locale.ai_role_options)
+        #     case st.session_state.locale.radio_text2:
+        #         c2.text_input(label=st.session_state.locale.select_placeholder3, key="role")
+        if role_kind == st.session_state.locale.radio_text1:
+            c2.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
+                            options=st.session_state.locale.ai_role_options)
+        elif role_kind == st.session_state.locale.radio_text2:
+            c2.text_input(label=st.session_state.locale.select_placeholder3, key="role")
+
 
     if st.session_state.user_text:
         show_conversation()
@@ -94,13 +101,18 @@ def main() -> None:
 
 
 def run_agi():
-    match selected_lang:
-        case "En":
-            st.session_state.locale = en
-        case "Ru":
-            st.session_state.locale = ru
-        case _:
-            st.session_state.locale = en
+    # match selected_lang:
+    #     case "En":
+    #         st.session_state.locale = en
+    #     case "Ru":
+    #         st.session_state.locale = ru
+    #     case _:
+    #         st.session_state.locale = en
+    if selected_lang == "Ru":
+        st.session_state.locale = ru
+    else:
+        st.session_state.locale = en
+
     st.markdown(f"<h1 style='text-align: center;'>{st.session_state.locale.title}</h1>", unsafe_allow_html=True)
     selected_footer = option_menu(
         menu_title=None,
@@ -115,17 +127,25 @@ def run_agi():
         orientation="horizontal",
         styles=FOOTER_STYLES
     )
-    match selected_footer:
-        case st.session_state.locale.footer_option0:
-            main()
-        case st.session_state.locale.footer_option1:
-            st.image(f"{img_dir}/{get_random_img(get_files_in_dir(img_dir))}")
-            show_info(tg_svg)
-        case st.session_state.locale.footer_option2:
-            show_donates()
-        case _:
-            show_info(tg_svg)
-
+    # match selected_footer:
+    #     case st.session_state.locale.footer_option0:
+    #         main()
+    #     case st.session_state.locale.footer_option1:
+    #         st.image(f"{img_dir}/{get_random_img(get_files_in_dir(img_dir))}")
+    #         show_info(tg_svg)
+    #     case st.session_state.locale.footer_option2:
+    #         show_donates()
+    #     case _:
+    #         show_info(tg_svg)
+    if selected_footer == st.session_state.locale.footer_option0:
+        main()
+    elif selected_footer == st.session_state.locale.footer_option1:
+        st.image(f"{img_dir}/{get_random_img(get_files_in_dir(img_dir))}")
+        show_info(tg_svg)
+    elif selected_footer == st.session_state.locale.footer_option2:
+        show_donates()
+    else:
+        show_info(tg_svg)
 
 if __name__ == "__main__":
     run_agi()

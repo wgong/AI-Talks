@@ -23,14 +23,22 @@ def show_text_input() -> None:
     st.text_area(label=st.session_state.locale.chat_placeholder, value=st.session_state.user_text, key="user_text")
 
 
+# def get_user_input_py310():
+#     match st.session_state.input_kind:
+#         case st.session_state.locale.input_kind_1:
+#             show_text_input()
+#         case st.session_state.locale.input_kind_2:
+#             show_voice_input()
+#         case _:
+#             show_text_input()
+
 def get_user_input():
-    match st.session_state.input_kind:
-        case st.session_state.locale.input_kind_1:
-            show_text_input()
-        case st.session_state.locale.input_kind_2:
-            show_voice_input()
-        case _:
-            show_text_input()
+    if st.session_state.input_kind == st.session_state.locale.input_kind_1:
+        show_text_input()
+    elif st.session_state.input_kind == st.session_state.locale.input_kind_2:
+        show_voice_input()
+    else:
+        show_text_input()
 
 
 def show_chat_buttons() -> None:
